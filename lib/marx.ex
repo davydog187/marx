@@ -17,10 +17,14 @@ defmodule Marx do
     []
   end
 
+  @spec render(any, any) :: any
   @doc """
   Convert Markdown text directly to HTML
+
+      iex> Marx.render("*foo bar*")
+      "<p><em>foo bar</em></p>"
   """
-  def render(text, _opts) do
+  def render(text, _opts \\ []) do
     text
   end
 end
