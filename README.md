@@ -2,9 +2,16 @@
 
 A Markdown compiler for the people.
 
+## Goals
+
+* Stable - Marx uses semantic versioning, and will not break underneath you when bumping a patch version
+* Extensible - Need to manipulate the output of Marx? You can hook into any stage of processing
+* Minimal - Marx does not have any dependencies. Its aim is be a low-level library that can be used in Elixir itself
+
+## Markdown flavors
 Supports [CommonMark Version 0.30](https://spec.commonmark.org/0.30/)
 
-## Extensions
+### Extensions
 * [Github Flavored Markdown](https://github.github.com/gfm/)
 
 ## Development
