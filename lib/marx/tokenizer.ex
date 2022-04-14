@@ -11,14 +11,15 @@ defmodule Marx.Tokenizer do
   end
 
   for p <- @punctuation do
-    defp tokenize(<<"\\", unquote(p), rest::binary>>, acc) do
-      tokenize(rest, [{:escaped, unquote(p)} | acc])
+    defp tokenize(<<"\\", unquote(p), rest::binary>>, buffer, acc) do
+      acc = buffer_to_acc(buffer, acc)
+      tokenize(rest, [], [{:escaped, unquote(p)} | acc])
     end
   end
 
   defp tokenize(<<c::utf8, rest::binary>>, buffer, acc) when c in @punctuation_charlist do
-    text = to_text(buffer)
-    tokenize(rest, [], [<<c::utf8>>, text | acc])
+    acc = buffer_to_acc(buffer, acc)
+    tokenize(rest, [], [<<c::utf8>> | acc])
   end
 
   defp tokenize(<<c::utf8, rest::binary>>, buffer, acc) do
@@ -26,11 +27,11 @@ defmodule Marx.Tokenizer do
   end
 
   defp tokenize(<<>>, buffer, acc) do
-    buffer |> to_text() |> prepend(acc) |> Enum.reverse()
+    buffer_to_acc(buffer, acc) |> Enum.reverse()
   end
 
-  defp prepend("", acc), do: acc
-  defp prepend(token, acc), do: [token | acc]
+  defp buffer_to_acc([], acc), do: acc
+  defp buffer_to_acc(buffer, acc), do: [{:text, to_text(buffer)} | acc]
 
   defp to_text(buffer) do
     buffer |> Enum.reverse() |> IO.iodata_to_binary()
