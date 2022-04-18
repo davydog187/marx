@@ -1,6 +1,8 @@
 defmodule Marx.Block.Parser do
   @newlines ["\r\n", "\n", "\r"]
 
+  # Parses out the blocks in the document
+
   def parse(string) do
     [line | lines] = String.split(string, @newlines)
     meta = %{}

@@ -34,6 +34,17 @@ $ mix test --only example:5
 1. Clone the [CommonMark spec](https://github.com/commonmark/commonmark-spec)
 2. Run `python3 test/spec_tests.py --dump-tests > test/support/commonmark_suite.json`
 
+## Architecture
+
+``` mermaid
+graph TD
+    string --> Marx.Block.Parser
+    Marx.Block.Parser -->|list of blocks| Marx.Block.TreeParser
+    Marx.Block.TreeParser -->| Partial Markdown AST| Marx.Line.Parser
+    Marx.Line.Parser -->|Full Markdown AST| Marx.AST.Renderer
+    Marx.AST.Renderer -->|html| HTML
+```
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
