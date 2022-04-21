@@ -3,12 +3,12 @@ defmodule Marx.AST do
   Markdown Abstract Syntax Tree
   """
 
-  defstruct []
+  @type t :: {atom(), [t() | String.t()]}
 
   @doc """
   Convert the Markdown AST into HTML AST
   """
-  def to_html_ast(%__MODULE__{}, _opts) do
+  def to_html_ast(_ast, _opts) do
     []
   end
 end

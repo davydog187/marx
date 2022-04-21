@@ -48,7 +48,10 @@ defmodule Marx.Block.ParserTest do
     end
 
     test "should parse a paragraph continuation" do
-      assert parse("hello\nworld") == [{:paragraph, [], ["hello", "\n", "world"]}]
+      assert parse("hello\nworld") == [
+               {:paragraph, [], ["hello"]},
+               {:paragraph, [], ["world"]}
+             ]
     end
 
     test "should parse a block quote" do
@@ -57,7 +60,8 @@ defmodule Marx.Block.ParserTest do
 
     test "should parse a multi-line block quote" do
       assert parse("> one\n> two") == [
-               {:block_quote, [], [{:paragraph, [], ["one", "\n", "two"]}]}
+               {:block_quote, [], [{:paragraph, [], ["one"]}]},
+               {:block_quote, [], [{:paragraph, [], ["two"]}]}
              ]
     end
 

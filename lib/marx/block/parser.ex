@@ -6,9 +6,7 @@ defmodule Marx.Block.Parser do
   def parse(string) do
     [line | lines] = String.split(string, @newlines)
     meta = %{}
-    blocks = parse_line(line, lines, [[]], meta)
-
-    collapse(blocks)
+    parse_line(line, lines, [], meta)
   end
 
   defp parse_line("", [line | lines], blocks, meta) do

@@ -12,6 +12,14 @@ defmodule Marx.AST.TreeZipperTest do
   describe "to_ast/1 and from_ast/1" do
     setup :example_1
 
+    test "simplest ast" do
+      ast = {:document, [{:paragraph, ["one"]}]}
+      zipper = Zipper.from_ast(ast)
+
+      assert zipper == {{[], [document: {[], [paragraph: {[], [{"one", {[], []}}]}]}]}, []}
+      assert Zipper.to_ast(zipper) == ast
+    end
+
     test "can convert a simple AST to a Zipper" do
       ast = {:document, [{:paragraph, ["one"]}, {:paragraph, ["two"]}]}
       zipper = Zipper.from_ast(ast)
@@ -32,7 +40,21 @@ defmodule Marx.AST.TreeZipperTest do
     end
 
     test "should create a zipper from an AST", %{ast: ast} do
-      assert Zipper.from_ast(ast) == []
+      assert Zipper.from_ast(ast) ==
+               {{[],
+                 [
+                   document:
+                     {[],
+                      [
+                        block_quote:
+                          {[],
+                           [
+                             paragraph: {[], [{"hello", {[], []}}]},
+                             paragraph: {[], [{"world", {[], []}}]}
+                           ]}
+                      ]}
+                 ]}, []}
+
       assert ast |> Zipper.from_ast() |> Zipper.to_ast() == ast
     end
 
